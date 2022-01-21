@@ -18,19 +18,10 @@ import tensorflow as tf
 from absl.testing import parameterized
 
 from official.vision.beta.projects.mesh_rcnn.ops.cubify import (
-    cubify, generate_3d_coords, initialize_mesh)
+    cubify, generate_3d_coords, initialize_mesh, utils)
 
 
 class CubifyTest(parameterized.TestCase, tf.test.TestCase):
-  def create_voxels(self, grid_dims, batch_size, occupancy_locs):
-    ones = tf.ones(shape=[len(occupancy_locs)])
-    voxels = tf.scatter_nd(
-        indices=tf.convert_to_tensor(occupancy_locs, tf.int32),
-        updates=ones,
-        shape=[batch_size, grid_dims, grid_dims, grid_dims])
-
-    return voxels
-
   @parameterized.named_parameters(
       {'testcase_name': 'unit_coord',
        'coord_dim': (1, 1, 1),
@@ -131,7 +122,7 @@ class CubifyTest(parameterized.TestCase, tf.test.TestCase):
   )
   def test_cubify(self, grid_dims, batch_size, occupancy_locs,
                   expected_num_faces, expected_num_verts):
-    voxels = self.create_voxels(grid_dims, batch_size, occupancy_locs)
+    voxels = create_voxels(grid_dims, batch_size, occupancy_locs)
     verts, faces, verts_mask, faces_mask = cubify(voxels, 0.5)
 
     self.assertAllEqual(tf.shape(verts), [batch_size, (grid_dims+1)**3, 3])
