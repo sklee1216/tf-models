@@ -18,7 +18,8 @@ import tensorflow as tf
 from absl.testing import parameterized
 
 from official.vision.beta.projects.mesh_rcnn.ops.cubify import (
-    cubify, generate_3d_coords, initialize_mesh, utils)
+    cubify, generate_3d_coords, initialize_mesh)
+from official.vision.beta.projects.mesh_rcnn.ops.voxel_ops import create_voxels
 
 
 class CubifyTest(parameterized.TestCase, tf.test.TestCase):
