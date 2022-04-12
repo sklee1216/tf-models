@@ -1,5 +1,6 @@
 import numpy as np
 import tensorflow as tf
+import open3d as o3d
 from matplotlib import pyplot as plt
 
 from official.vision.beta.projects.mesh_rcnn.modeling.heads.mesh_head import \
@@ -102,8 +103,6 @@ def test_load_mesh_refinement_branch():
                   verts_mask[batch_to_view, :],
                   faces_mask[batch_to_view, :]
     )
-
-  plt.show()
 
 if __name__ == '__main__':
   test_load_mesh_refinement_branch()
